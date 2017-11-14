@@ -4,6 +4,10 @@
 //
 // Keyup event triggers functions in the object to progress game state.
 
+// globals
+// var audio = new Audio("http://archive.org/download/gd73-06-10.sbd.hollister.174.sbeok.shnf/gd73-06-10d2t04.mp3");
+// audio.play();
+
 // function to print array contents with spaces and no commas
 function printArray(array) {
     var output = "";
@@ -23,7 +27,7 @@ var hangmanGame = {
     progress: [],
     guessesRemaining: 25,
     wins: 0,
-
+    
     // Update the DOM with new values. This will be called at the end of most
     // of the other functions.
     updateDOM: function() {
@@ -36,7 +40,7 @@ var hangmanGame = {
     // Set a new word and continue game
     initWord: function(word) {
         this.currentWord = word;
-
+        
         // initialize progress with underscores
         for (var i=0; i < word.length; i++) {
             if (word[i] === " ") {
@@ -46,46 +50,50 @@ var hangmanGame = {
                 this.progress.push("_");
             }
         }
-
+        
         this.updateDOM();
     },
-
+    
     // Guess a letter and update the data
     guessLetter: function(letter) {
         // if letter is [a-z] and has not been guessed before
         if ((letter.match("^[a-z]$") != null) && !(this.lettersGuessedAlready.includes(letter))) {
             var currentWordLower = this.currentWord.toLowerCase();
             this.lettersGuessedAlready.push(letter);
-
+            
             // if guessed letter is in currentWord then reveal it
             if (currentWordLower.includes(letter)) {
                 console.log("Current Word contains guessed letter!");
                 // loop over current word. If letter matches guess, set appropriate index in progress string to letter
-                
+                for (var i = 0; i < currentWordLower.length; i++) {
+                    if (currentWordLower[i] === letter)  {
+                        this.progress[i] = letter;
+                    }                  
+                }
             }
-
+            
             // otherwise subtract 1 from guesses left
             else {
                 this.guessesRemaining--;
-
+                
             }
         }
         else {
             console.log("User pressed key that was not [a-z] or has already been guessed. Doing nothing...");
         }
-
+        
     },
-
+    
     // Check if the user has won
     checkForWin: function() {
-
+        
     },
-
+    
     // Check if the user has lost
     checkForLoss: function() {
-
+        
     }
-
+    
 };
 
 // initialize the game on page load
@@ -94,18 +102,29 @@ window.onload = function() {
     console.log("Generating random word from wordlist...");
     var randomWord = hangmanGame.wordList[Math.floor(Math.random() * hangmanGame.wordList.length)];
     console.log("Chose word: " + randomWord);
-
+    
     hangmanGame.initWord(randomWord);
 }
 
 document.onkeyup = function(event) {
     var key = event.key;
-
     console.log("User pressed key: " + key);
 
-
+    if (key === "1") {
+        if (audio.paused) {
+            console.log("Resuming music...");
+            audio.play();
+        }
+        else {
+            console.log("Pausing music...");
+            audio.pause();
+        }
+    }
+    
+    
+    
     hangmanGame.guessLetter(key);
-
+    
     hangmanGame.checkForWin();
     hangmanGame.checkForLoss();
     hangmanGame.updateDOM();
