@@ -60,6 +60,8 @@ var hangmanGame = {
             // if guessed letter is in currentWord then reveal it
             if (currentWordLower.includes(letter)) {
                 console.log("Current Word contains guessed letter!");
+                // loop over current word. If letter matches guess, set appropriate index in progress string to letter
+                
             }
 
             // otherwise subtract 1 from guesses left
