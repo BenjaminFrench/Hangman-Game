@@ -40,7 +40,7 @@ var hangmanGame = {
     // Set a new word and continue game
     initWord: function(word) {
         this.currentWord = word;
-        
+        this.progress = [];
         // initialize progress with underscores
         for (var i=0; i < word.length; i++) {
             if (word[i] === " ") {
@@ -86,7 +86,16 @@ var hangmanGame = {
     
     // Check if the user has won
     checkForWin: function() {
-        
+        for (var i = 0; i < this.currentWord.length; i++) {
+            if (this.progress[i] === "&nbsp") { 
+            }
+            else if (this.currentWord[i].toLowerCase() !== this.progress[i]) {
+                return false;
+            }
+        }
+        console.log("You win!");
+        this.wins++;
+        return true;
     },
     
     // Check if the user has lost
@@ -125,7 +134,15 @@ document.onkeyup = function(event) {
     
     hangmanGame.guessLetter(key);
     
-    hangmanGame.checkForWin();
+    if (hangmanGame.checkForWin()) {
+        // generate a new random word
+        console.log("Generating random word from wordlist...");
+        var randomWord = hangmanGame.wordList[Math.floor(Math.random() * hangmanGame.wordList.length)];
+        hangmanGame.initWord(randomWord);
+        console.log("Chose word: " + randomWord);
+        hangmanGame.lettersGuessedAlready = [];
+    
+    }
     hangmanGame.checkForLoss();
     hangmanGame.updateDOM();
 }
