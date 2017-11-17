@@ -40,6 +40,9 @@ var hangmanGame = {
     // Draw the keyboard that will show user what they have guessed.
     // This draws the keyboard with all characters unused.
     initKeyboard: function() {
+        $("#keyboard-row-1").empty();
+        $("#keyboard-row-2").empty();
+        $("#keyboard-row-3").empty();
         var keyrow1 = [ "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P" ];
         var keyrow2 = [ "A", "S", "D", "F", "G", "H", "J", "K", "L" ];
         var keyrow3 = [ "Z", "X", "C", "V", "B", "N", "M" ];
@@ -120,11 +123,13 @@ var hangmanGame = {
 
                 // set the button on the keyboard display to danger bootstrap class
                 var selector = '.letter-button[data-letter="' + letter.toUpperCase() + '"]';
-                $('.letter-button[data-letter=""]').addClass("btn-danger");
+                $(selector).addClass("btn-success");
             }
             
             // Wrong letter. Subtract 1 from guesses left
             else {
+                var selector = '.letter-button[data-letter="' + letter.toUpperCase() + '"]';
+                $(selector).addClass("btn-danger");
                 this.guessesRemaining--;
                 
             }
