@@ -48,39 +48,24 @@ var hangmanGame = {
         var keyrow3 = [ "Z", "X", "C", "V", "B", "N", "M" ];
 
         for (var i = 0; i < keyrow1.length; i++) {
-            // 2. Create a variable named "letterBtn" equal to $("<button>");
             var letterBtn = $("<button>");
-            // 3. Then give each "letterBtn" the following classes: "letter-button" "letter" "letter-button-color".
             letterBtn.addClass("letter-button btn btn-default");
-            // 4. Then give each "letterBtn" a data-attribute called "data-letter".
             letterBtn.attr("data-letter", keyrow1[i]);
-            // 5. Then give each "letterBtns" a text equal to "letters[i]".
             letterBtn.text(keyrow1[i]);
-            // 6. Finally, append each "letterBtn" to the "#buttons" div (provided).
             $("#keyboard-row-1").append(letterBtn);
         }
         for (var i = 0; i < keyrow2.length; i++) {
-            // 2. Create a variable named "letterBtn" equal to $("<button>");
             var letterBtn = $("<button>");
-            // 3. Then give each "letterBtn" the following classes: "letter-button" "letter" "letter-button-color".
             letterBtn.addClass("letter-button btn btn-default");
-            // 4. Then give each "letterBtn" a data-attribute called "data-letter".
             letterBtn.attr("data-letter", keyrow2[i]);
-            // 5. Then give each "letterBtns" a text equal to "letters[i]".
             letterBtn.text(keyrow2[i]);
-            // 6. Finally, append each "letterBtn" to the "#buttons" div (provided).
             $("#keyboard-row-2").append(letterBtn);
         }
         for (var i = 0; i < keyrow3.length; i++) {
-            // 2. Create a variable named "letterBtn" equal to $("<button>");
             var letterBtn = $("<button>");
-            // 3. Then give each "letterBtn" the following classes: "letter-button" "letter" "letter-button-color".
             letterBtn.addClass("letter-button btn btn-default");
-            // 4. Then give each "letterBtn" a data-attribute called "data-letter".
             letterBtn.attr("data-letter", keyrow3[i]);
-            // 5. Then give each "letterBtns" a text equal to "letters[i]".
             letterBtn.text(keyrow3[i]);
-            // 6. Finally, append each "letterBtn" to the "#buttons" div (provided).
             $("#keyboard-row-3").append(letterBtn);
         }
     },
