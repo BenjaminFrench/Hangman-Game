@@ -1,3 +1,18 @@
 p {
     text-align: center;
+    font-family: 'Roboto Mono', monospace;
+}
+
+.letter-button {
+    text-align: center;
+    font-family: 'Roboto Mono', monospace;
+    margin: 3px 3px 3px 3px;
+}
+
+.letter-button-used {
+    
+}
+
+#keyboard {
+    text-align: center;
 }

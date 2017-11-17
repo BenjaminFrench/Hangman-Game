@@ -37,6 +37,51 @@ var hangmanGame = {
         document.getElementById("progress-text").innerHTML = printArray(this.progress);
     },
     
+    // Draw the keyboard that will show user what they have guessed.
+    // This draws the keyboard with all characters unused.
+    initKeyboard: function() {
+        var keyrow1 = [ "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P" ];
+        var keyrow2 = [ "A", "S", "D", "F", "G", "H", "J", "K", "L" ];
+        var keyrow3 = [ "Z", "X", "C", "V", "B", "N", "M" ];
+
+        for (var i = 0; i < keyrow1.length; i++) {
+            // 2. Create a variable named "letterBtn" equal to $("<button>");
+            var letterBtn = $("<button>");
+            // 3. Then give each "letterBtn" the following classes: "letter-button" "letter" "letter-button-color".
+            letterBtn.addClass("letter-button btn btn-default");
+            // 4. Then give each "letterBtn" a data-attribute called "data-letter".
+            letterBtn.attr("data-letter", keyrow1[i]);
+            // 5. Then give each "letterBtns" a text equal to "letters[i]".
+            letterBtn.text(keyrow1[i]);
+            // 6. Finally, append each "letterBtn" to the "#buttons" div (provided).
+            $("#keyboard-row-1").append(letterBtn);
+        }
+        for (var i = 0; i < keyrow2.length; i++) {
+            // 2. Create a variable named "letterBtn" equal to $("<button>");
+            var letterBtn = $("<button>");
+            // 3. Then give each "letterBtn" the following classes: "letter-button" "letter" "letter-button-color".
+            letterBtn.addClass("letter-button btn btn-default");
+            // 4. Then give each "letterBtn" a data-attribute called "data-letter".
+            letterBtn.attr("data-letter", keyrow2[i]);
+            // 5. Then give each "letterBtns" a text equal to "letters[i]".
+            letterBtn.text(keyrow2[i]);
+            // 6. Finally, append each "letterBtn" to the "#buttons" div (provided).
+            $("#keyboard-row-2").append(letterBtn);
+        }
+        for (var i = 0; i < keyrow3.length; i++) {
+            // 2. Create a variable named "letterBtn" equal to $("<button>");
+            var letterBtn = $("<button>");
+            // 3. Then give each "letterBtn" the following classes: "letter-button" "letter" "letter-button-color".
+            letterBtn.addClass("letter-button btn btn-default");
+            // 4. Then give each "letterBtn" a data-attribute called "data-letter".
+            letterBtn.attr("data-letter", keyrow3[i]);
+            // 5. Then give each "letterBtns" a text equal to "letters[i]".
+            letterBtn.text(keyrow3[i]);
+            // 6. Finally, append each "letterBtn" to the "#buttons" div (provided).
+            $("#keyboard-row-3").append(letterBtn);
+        }
+    },
+    
     // Set a new word and continue game
     initWord: function(word) {
         this.currentWord = word;
@@ -51,6 +96,7 @@ var hangmanGame = {
             }
         }
         
+        this.initKeyboard();
         this.updateDOM();
     },
     
@@ -61,6 +107,7 @@ var hangmanGame = {
             var currentWordLower = this.currentWord.toLowerCase();
             this.lettersGuessedAlready.push(letter);
             
+            // Guess is correct
             // if guessed letter is in currentWord then reveal it
             if (currentWordLower.includes(letter)) {
                 console.log("Current Word contains guessed letter!");
@@ -70,9 +117,13 @@ var hangmanGame = {
                         this.progress[i] = this.currentWord[i];
                     }                  
                 }
+
+                // set the button on the keyboard display to danger bootstrap class
+                var selector = '.letter-button[data-letter="' + letter.toUpperCase() + '"]';
+                $('.letter-button[data-letter=""]').addClass("btn-danger");
             }
             
-            // otherwise subtract 1 from guesses left
+            // Wrong letter. Subtract 1 from guesses left
             else {
                 this.guessesRemaining--;
                 
@@ -115,10 +166,11 @@ window.onload = function() {
     hangmanGame.initWord(randomWord);
 }
 
+// onkeyup event drives the changing of game state
 document.onkeyup = function(event) {
     var key = event.key;
     console.log("User pressed key: " + key);
-
+    
     if (key === "1") {
         if (audio.paused) {
             console.log("Resuming music...");
@@ -130,8 +182,6 @@ document.onkeyup = function(event) {
         }
     }
     
-    
-    
     hangmanGame.guessLetter(key);
     
     if (hangmanGame.checkForWin()) {
@@ -141,7 +191,7 @@ document.onkeyup = function(event) {
         hangmanGame.initWord(randomWord);
         console.log("Chose word: " + randomWord);
         hangmanGame.lettersGuessedAlready = [];
-    
+        
     }
     hangmanGame.checkForLoss();
     hangmanGame.updateDOM();
