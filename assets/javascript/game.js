@@ -21,7 +21,7 @@ function printArray(array) {
 }
 
 var hangmanGame = {
-    wordList: ["Playing in the Band","The Other One","Sugar Magnolia","China Cat Sunflower","Truckin","Jack Straw","Mexicali Blues","Tennessee Jed","Deal","Looks Like Rain","Bertha","Wharf Rat","Estimated Prophet","Eyes of the World","Sugaree","Brown Eyed Women","Loser","Black Peter","One More Saturday Night","Cassidy","Uncle Johns Band","Stella Blue","Hes Gone","US Blues","Ramble On Rose","Scarlet Begonias","Casey Jones","Friend of the Devil","Terrapin Station","Bird Song","Greatest Story Ever Told","Candyman","Let It Grow","Row Jimmy","Althea","I Need A Miracle","Throwing Stones","Mississippi Half-Step","The Wheel","Fire on the Mountain","Dire Wolf","Music Never Stopped","Dark Star","Cumberland Blues","They Love Each Other","Ship of Fools","Saint of Circumstance","Franklins Tower","Hell in a Bucket","Brokedown Palace","Touch of Grey","Feel Like a Stranger","St Stephen","Shakedown Street","Box of Rain","It Must Have Been The Roses","Black Throated Wind","Stagger Lee","Lost Sailor","Crazy Fingers","Alabama Getaway","West LA Fadeaway","Cryptical Envelopment","High Time","Supplication","China Doll","Might As Well","Lazy Lightning","Slipknot","Help on the Way","My Brother Esau","Passenger","The Eleven","Loose Lucy","Victim or the Crime","Foolish Heart","Duprees Diamond Blues","Corrina","Picasso Moon","Standing on the Moon","Black Muddy River","Comes A Time","Here Comes Sunshine","Lazy River Road","Alligator","To Lay Me Down","When Push Comes to Shove","Keep Your Day Job","New Speedway Boogie","So Many Roads","Caution","Weather Report Suite","Attics of My Life","Mr. Charlie","Easy Wind","Days Between","Cosmic Charlie","Ripple","Doin That Rag","Sunrise","Chinatown Shuffle","New Potato Caboose","Built to Last","Masons Children","Wave That Flag","Two Souls in Communion","Mountains of the Moon","Unbroken Chain","Born Cross-Eyed","Cream Puff War","Let Me Sing Your Blues Away","Clementine","King Solomons Marbles","Mission in the Rain","Till the Morning Comes","Operator","Reuben and Cherise","Blues for Allah","Golden Road","Sage and Spirit","Rosemary"],
+    wordList: ["Playing in the Band","The Other One","Sugar Magnolia","China Cat Sunflower","Truckin","Jack Straw","Mexicali Blues","Tennessee Jed","Deal","Looks Like Rain","Bertha","Wharf Rat","Estimated Prophet","Eyes of the World","Sugaree","Brown Eyed Women","Loser","Black Peter","One More Saturday Night","Cassidy","Uncle Johns Band","Stella Blue","Hes Gone","US Blues","Ramble On Rose","Scarlet Begonias","Casey Jones","Friend of the Devil","Terrapin Station","Bird Song","Greatest Story Ever Told","Candyman","Let It Grow","Row Jimmy","Althea","I Need A Miracle","Throwing Stones","Mississippi Half Step","The Wheel","Fire on the Mountain","Dire Wolf","Music Never Stopped","Dark Star","Cumberland Blues","They Love Each Other","Ship of Fools","Saint of Circumstance","Franklins Tower","Hell in a Bucket","Brokedown Palace","Touch of Grey","Feel Like a Stranger","St Stephen","Shakedown Street","Box of Rain","It Must Have Been The Roses","Black Throated Wind","Stagger Lee","Lost Sailor","Crazy Fingers","Alabama Getaway","West LA Fadeaway","Cryptical Envelopment","High Time","Supplication","China Doll","Might As Well","Lazy Lightning","Slipknot","Help on the Way","My Brother Esau","Passenger","The Eleven","Loose Lucy","Victim or the Crime","Foolish Heart","Duprees Diamond Blues","Corrina","Picasso Moon","Standing on the Moon","Black Muddy River","Comes A Time","Here Comes Sunshine","Lazy River Road","Alligator","To Lay Me Down","When Push Comes to Shove","Keep Your Day Job","New Speedway Boogie","So Many Roads","Caution","Weather Report Suite","Attics of My Life","Mr. Charlie","Easy Wind","Days Between","Cosmic Charlie","Ripple","Doin That Rag","Sunrise","Chinatown Shuffle","New Potato Caboose","Built to Last","Masons Children","Wave That Flag","Two Souls in Communion","Mountains of the Moon","Unbroken Chain","Born Cross Eyed","Cream Puff War","Let Me Sing Your Blues Away","Clementine","King Solomons Marbles","Mission in the Rain","Till the Morning Comes","Operator","Reuben and Cherise","Blues for Allah","Golden Road","Sage and Spirit","Rosemary"],
     currentWord: '',
     lettersGuessedAlready: [],
     progress: [],
@@ -136,12 +136,19 @@ var hangmanGame = {
         }
         console.log("You win!");
         this.wins++;
+        alert("Congratulations you won!\nThe word was: " + hangmanGame.currentWord + "\nClick ok to continue playing");
         return true;
     },
     
     // Check if the user has lost
     checkForLoss: function() {
-        
+        if (this.guessesRemaining < 1) {
+            alert("You lose, game over!\nYou won " + this.wins + " times.\nClick ok to start again");
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     
 };
@@ -183,6 +190,16 @@ document.onkeyup = function(event) {
         hangmanGame.lettersGuessedAlready = [];
         
     }
-    hangmanGame.checkForLoss();
+    if (hangmanGame.checkForLoss()) {
+        // restart game
+        console.log("Resetting game...");
+        hangmanGame.wins = 0;
+        hangmanGame.guessesRemaining = 25;
+        console.log("Generating random word from wordlist...");
+        var randomWord = hangmanGame.wordList[Math.floor(Math.random() * hangmanGame.wordList.length)];
+        hangmanGame.initWord(randomWord);
+        console.log("Chose word: " + randomWord);
+        hangmanGame.lettersGuessedAlready = [];
+    }
     hangmanGame.updateDOM();
 }
