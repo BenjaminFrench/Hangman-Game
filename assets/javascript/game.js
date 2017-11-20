@@ -143,7 +143,7 @@ var hangmanGame = {
     // Check if the user has lost
     checkForLoss: function() {
         if (this.guessesRemaining < 1) {
-            alert("You lose, game over!\nYou won " + this.wins + " times.\nClick ok to start again");
+            alert("You lose, game over!\nYou won " + this.wins + " times.\nThe word was: " + this.currentWord + "\nClick ok to start again");
             return true;
         }
         else {
