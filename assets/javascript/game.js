@@ -5,7 +5,7 @@
 // Keyup event triggers functions in the object to progress game state.
 
 // globals
-// var audio = new Audio("http://archive.org/download/gd73-06-10.sbd.hollister.174.sbeok.shnf/gd73-06-10d2t04.mp3");
+var song = new Audio();
 // audio.play();
 
 // function to print array contents with spaces and no commas
@@ -21,7 +21,17 @@ function printArray(array) {
 }
 
 var hangmanGame = {
-    wordList: ["Playing in the Band","The Other One","Sugar Magnolia","China Cat Sunflower","Truckin","Jack Straw","Mexicali Blues","Tennessee Jed","Deal","Looks Like Rain","Bertha","Wharf Rat","Estimated Prophet","Eyes of the World","Sugaree","Brown Eyed Women","Loser","Black Peter","One More Saturday Night","Cassidy","Uncle Johns Band","Stella Blue","Hes Gone","US Blues","Ramble On Rose","Scarlet Begonias","Casey Jones","Friend of the Devil","Terrapin Station","Bird Song","Greatest Story Ever Told","Candyman","Let It Grow","Row Jimmy","Althea","I Need A Miracle","Throwing Stones","Mississippi Half Step","The Wheel","Fire on the Mountain","Dire Wolf","Music Never Stopped","Dark Star","Cumberland Blues","They Love Each Other","Ship of Fools","Saint of Circumstance","Franklins Tower","Hell in a Bucket","Brokedown Palace","Touch of Grey","Feel Like a Stranger","St Stephen","Shakedown Street","Box of Rain","It Must Have Been The Roses","Black Throated Wind","Stagger Lee","Lost Sailor","Crazy Fingers","Alabama Getaway","West LA Fadeaway","Cryptical Envelopment","High Time","Supplication","China Doll","Might As Well","Lazy Lightning","Slipknot","Help on the Way","My Brother Esau","Passenger","The Eleven","Loose Lucy","Victim or the Crime","Foolish Heart","Duprees Diamond Blues","Corrina","Picasso Moon","Standing on the Moon","Black Muddy River","Comes A Time","Here Comes Sunshine","Lazy River Road","Alligator","To Lay Me Down","When Push Comes to Shove","Keep Your Day Job","New Speedway Boogie","So Many Roads","Caution","Weather Report Suite","Attics of My Life","Mr. Charlie","Easy Wind","Days Between","Cosmic Charlie","Ripple","Doin That Rag","Sunrise","Chinatown Shuffle","New Potato Caboose","Built to Last","Masons Children","Wave That Flag","Two Souls in Communion","Mountains of the Moon","Unbroken Chain","Born Cross Eyed","Cream Puff War","Let Me Sing Your Blues Away","Clementine","King Solomons Marbles","Mission in the Rain","Till the Morning Comes","Operator","Reuben and Cherise","Blues for Allah","Golden Road","Sage and Spirit","Rosemary"],
+    wordList: ["Playing in the Band","The Other One","Sugar Magnolia","China Cat Sunflower","Truckin","Jack Straw","Mexicali Blues","Tennessee Jed","Deal","Bertha"],
+    songlist: ["https://ia802307.us.archive.org/20/items/gd73-06-10.sbd.hollister.174.sbeok.shnf/gd73-06-10d2t02.mp3",
+    "https://archive.org/download/gd77-10-02.sbd.unknown.278.sbeok.shnf/d3t6.mp3",
+    "https://archive.org/download/gd73-06-10.sbd.hollister.174.sbeok.shnf/gd73-06-10d4t01.mp3",
+    "https://archive.org/download/gd73-06-09.sbd.hollister.172.sbeok.shnf/gd73-06-09d2t07.mp3",
+    "https://archive.org/download/gd73-06-09.sbd.hollister.172.sbeok.shnf/gd73-06-09d3t02.mp3",
+    "https://archive.org/download/gd73-06-09.sbd.hollister.172.sbeok.shnf/gd73-06-09d1t05.mp3",
+    "https://archive.org/download/gd73-02-09.sbd.allred.9888.sbeok.shnf/gd1973-02-09d1t11.mp3",
+    "https://archive.org/download/gd73-06-09.sbd.hollister.172.sbeok.shnf/gd73-06-09d2t05.mp3",
+    "https://archive.org/download/gd77-05-08.sbd.hicks.4982.sbeok.shnf/gd77-05-08eaton-d1t06.mp3",
+    "https://archive.org/download/gd74-07-19.sbd.symons.12381.sbeok.shnf/gd74-07-19d1t03.mp3"],
     currentWord: '',
     lettersGuessedAlready: [],
     progress: [],
@@ -137,6 +147,7 @@ var hangmanGame = {
         console.log("You win!");
         this.wins++;
         alert("Congratulations you won!\nThe word was: " + hangmanGame.currentWord + "\nClick ok to continue playing");
+        song.pause();
         return true;
     },
     
@@ -144,6 +155,7 @@ var hangmanGame = {
     checkForLoss: function() {
         if (this.guessesRemaining < 1) {
             alert("You lose, game over!\nYou won " + this.wins + " times.\nThe word was: " + this.currentWord + "\nClick ok to start again");
+            song.pause();
             return true;
         }
         else {
@@ -157,8 +169,10 @@ var hangmanGame = {
 window.onload = function() {
     // choose a random word from wordlist and initWord(word)
     console.log("Generating random word from wordlist...");
-    var randomWord = hangmanGame.wordList[Math.floor(Math.random() * hangmanGame.wordList.length)];
-    console.log("Chose word: " + randomWord);
+    var randomNumber = Math.floor(Math.random() * hangmanGame.wordList.length);
+    var randomWord = hangmanGame.wordList[randomNumber];
+    song.src = (hangmanGame.songlist[randomNumber]);
+    song.play();console.log("Chose word: " + randomWord);
     
     hangmanGame.initWord(randomWord);
 }
@@ -184,7 +198,10 @@ document.onkeyup = function(event) {
     if (hangmanGame.checkForWin()) {
         // generate a new random word
         console.log("Generating random word from wordlist...");
-        var randomWord = hangmanGame.wordList[Math.floor(Math.random() * hangmanGame.wordList.length)];
+        var randomNumber = Math.floor(Math.random() * hangmanGame.wordList.length);
+        var randomWord = hangmanGame.wordList[randomNumber];
+        song.src =(hangmanGame.songlist[randomNumber]);
+        song.play();
         hangmanGame.initWord(randomWord);
         console.log("Chose word: " + randomWord);
         hangmanGame.lettersGuessedAlready = [];
@@ -196,8 +213,10 @@ document.onkeyup = function(event) {
         hangmanGame.wins = 0;
         hangmanGame.guessesRemaining = 25;
         console.log("Generating random word from wordlist...");
-        var randomWord = hangmanGame.wordList[Math.floor(Math.random() * hangmanGame.wordList.length)];
-        hangmanGame.initWord(randomWord);
+        var randomNumber = Math.floor(Math.random() * hangmanGame.wordList.length);
+        var randomWord = hangmanGame.wordList[randomNumber];
+        song.src = (hangmanGame.songlist[randomNumber]);
+        song.play();hangmanGame.initWord(randomWord);
         console.log("Chose word: " + randomWord);
         hangmanGame.lettersGuessedAlready = [];
     }
